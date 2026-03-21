@@ -1,0 +1,155 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #6a00f4, #c026d3);
+  font-family: Arial, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.card {
+  width: 320px;
+  text-align: center;
+  color: white;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d946ef, #9333ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 6px;
+}
+
+.inputGroup input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+}
+
+.inputGroup input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inputGroup input:focus {
+  outline: none;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.options a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+
+.loginBtn {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #d946ef, #9333ea);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.registerBtn {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.title {
+  color: white;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.error {
+  color: #fca5a5;
+  /* vermelho claro */
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.inputError {
+  border-bottom: 1px solid #fca5a5;
+}
+
+.loginBtn,
+.registerBtn {
+  width: 100%;
+}
+
+.loginBtn,
+.registerBtn {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.loginBtn:hover {
+  opacity: 0.9;
+}
+
+.registerBtn {
+  opacity: 0.8;
+}
+
+.registerBtn:hover {
+  opacity: 1;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inputGroup input::placeholder {
+  opacity: 0.7;
+}

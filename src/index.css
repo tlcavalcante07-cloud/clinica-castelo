@@ -1,0 +1,54 @@
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* VARIÁVEIS GLOBAIS */
+:root {
+  --color-primary: #2563eb;
+  --color-secondary: #0ea5e9;
+  --color-background: #f5f7fa;
+  --color-text: #1f2937;
+  --color-border: #e5e7eb;
+
+  --radius: 8px;
+}
+
+/* BASE */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* LINKS */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* BOTÕES (reset leve) */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+/* INPUTS */
+input, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+/* SCROLLBONITO (opcional) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 999px;
+}
