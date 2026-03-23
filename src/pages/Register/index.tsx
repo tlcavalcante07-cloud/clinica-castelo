@@ -1,23 +1,36 @@
+// Register.tsx
 import { useState } from 'react'
-import styles from './Register.module.css'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import MailOutlineIcon from '@mui/icons-material/MailOutline'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import isValidEmail from '../../Validation'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { storage } from '../../Service/StorageService'
+import {
+    PersonOutline as PersonIcon,
+    MailOutline as MailIcon,
+    LockOutlined as LockIcon,
+    Visibility,
+    VisibilityOff,
+    ArrowBack as BackIcon
+} from '@mui/icons-material'
+import isValidEmail from '../../Utils'
+import styles from './Register.module.css'
 
 export default function Register() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [erro, setErro] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
+    // Register.tsx
     function handleRegister(e: React.FormEvent) {
         e.preventDefault()
+        setErro("")
 
-        if (!name) {
+        if (!name.trim()) {
             setErro('Nome é obrigatório')
             return
         }
@@ -32,81 +45,158 @@ export default function Register() {
             return
         }
 
-        setErro('')
-        console.log({ name, email, password })
+        if (password !== confirmPassword) {
+            setErro('As senhas não coincidem')
+            return
+        }
+
+        setIsLoading(true)
+
+        setTimeout(() => {
+            const users = storage.getPermanent<User[]>("users") || []
+            const userExists = users.some((u: any) => u.email === email)
+
+            if (userExists) {
+                setErro("Usuário já cadastrado")
+                setIsLoading(false)
+                return
+            }
+
+            const newUser = { name, email, password }
+
+            // ✅ CORRETO - sem JSON.stringify extra
+            storage.setPermanent("users", [...users, newUser])
+
+            setIsLoading(false)
+            navigate("/login")
+        }, 800)
     }
 
     return (
-        <motion.div
-            className={styles.container}
-            initial={{ opacity: 0, x: 40, scale: 0.98 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -40, scale: 0.98 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.wrapper}>
+        <div className={styles.container}>
+            <div className={styles.background} />
 
-                <h1 className={styles.title}>Criar conta</h1>
-                <p className={styles.subtitle}>
-                    Cadastre-se para agendar sua consulta
-                </p>
+            <div className={styles.content}>
+                {/* Header com botão voltar */}
+                <div className={styles.header}>
+                    <button
+                        className={styles.backButton}
+                        onClick={() => navigate(-1)}
+                    >
+                        <BackIcon />
+                    </button>
+                </div>
 
-                <div className={styles.card}>
-                    <div className={styles.avatar}>
-                        <PersonOutlineIcon />
-                    </div>
-
-                    <form onSubmit={handleRegister} className={styles.form}>
-
-                        {/* Nome */}
-                        <div className={styles.inputGroup}>
-                            <PersonOutlineIcon />
-                            <input
-                                type="text"
-                                placeholder="Nome completo"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                <div className={styles.wrapper}>
+                    <motion.div
+                        className={styles.brand}
+                        initial={{ y: -20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div className={styles.logoIcon}>
+                            <PersonIcon sx={{ fontSize: 32 }} />
                         </div>
+                        <h1 className={styles.title}>Criar conta</h1>
+                        <p className={styles.subtitle}>
+                            Cadastre-se para agendar sua consulta
+                        </p>
+                    </motion.div>
 
-                        {/* Email */}
-                        <div className={styles.inputGroup}>
-                            <MailOutlineIcon />
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
+                    <motion.div
+                        className={styles.card}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                    >
+                        <form onSubmit={handleRegister} className={styles.form}>
+                            {/* Nome */}
+                            <div className={styles.inputGroup}>
+                                <PersonIcon className={styles.inputIcon} />
+                                <input
+                                    type="text"
+                                    placeholder="Nome completo"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </div>
 
-                        {/* Senha */}
-                        <div className={styles.inputGroup}>
-                            <LockOutlinedIcon />
-                            <input
-                                type="password"
-                                placeholder="Senha"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
+                            {/* Email */}
+                            <div className={styles.inputGroup}>
+                                <MailIcon className={styles.inputIcon} />
+                                <input
+                                    type="email"
+                                    placeholder="E-mail"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </div>
 
-                        {erro && <span className={styles.error}>{erro}</span>}
+                            {/* Senha */}
+                            <div className={styles.inputGroup}>
+                                <LockIcon className={styles.inputIcon} />
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Senha"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </button>
+                            </div>
 
-                        <button className={styles.registerBtn}>
-                            Criar conta
-                        </button>
+                            {/* Confirmar Senha */}
+                            <div className={styles.inputGroup}>
+                                <LockIcon className={styles.inputIcon} />
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    placeholder="Confirmar senha"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    className={styles.eyeButton}
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                >
+                                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                </button>
+                            </div>
 
-                        <button
-                            type="button"
-                            className={styles.loginBtn}
-                            onClick={() => navigate("/")}
-                        >
-                            Já tenho conta
-                        </button>
-                    </form>
+                            {erro && <div className={styles.errorMessage}>{erro}</div>}
+
+                            <button
+                                type="submit"
+                                className={styles.registerButton}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <span className={styles.spinner} />
+                                ) : (
+                                    "Criar conta"
+                                )}
+                            </button>
+
+                            <div className={styles.divider}>
+                                <span>ou</span>
+                            </div>
+
+                            <button
+                                type="button"
+                                className={styles.loginButton}
+                                onClick={() => navigate("/login")}
+                            >
+                                Já tenho conta
+                            </button>
+                        </form>
+                    </motion.div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     )
 }

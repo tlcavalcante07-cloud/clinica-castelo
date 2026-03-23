@@ -1,99 +1,226 @@
-import { useState } from 'react'
-import styles from './Login.module.css'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import MailOutlineIcon from '@mui/icons-material/MailOutline'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import isValidEmail from '../../Validation'
+// Login.tsx
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { storage } from '../../Service/StorageService'
+import {
+    TextField,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    Link,
+    Paper,
+    Container,
+    Box,
+    Typography,
+    IconButton,
+    InputAdornment,
+    Alert,
+    CircularProgress,
+    Divider,
+} from '@mui/material'
+import {
+    MailOutline as MailIcon,
+    LockOutlined as LockIcon,
+    Visibility,
+    VisibilityOff,
+    Favorite as HeartIcon,
+    Shield as ShieldIcon,
+} from '@mui/icons-material'
+import styles from './Login.module.css'
 
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [rememberMe, setRememberMe] = useState(false)
     const [erro, setErro] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
-    function handleLogin(e: React.FormEvent) {
-        e.preventDefault()
-
-        if (!isValidEmail(email)) {
-            setErro("Email inválido")
-            return
+    // Carregar dados salvos ao iniciar
+    useState(() => {
+        const savedEmail = localStorage.getItem("rememberedEmail")
+        const savedPassword = localStorage.getItem("rememberedPassword")
+        if (savedEmail && savedPassword) {
+            setEmail(savedEmail)
+            setPassword(savedPassword)
+            setRememberMe(true)
         }
+    })
 
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault()
+        setIsLoading(true)
         setErro("")
-        console.log({ email, password })
+
+        setTimeout(() => {
+            // ✅ Usar storageService
+            const users = storage.getUsers()
+            const user = users.find(u => u.email === email && u.password === password)
+
+            if (!user) {
+                setErro("Email ou senha inválidos")
+                setIsLoading(false)
+                return
+            }
+
+            if (rememberMe) {
+                storage.setRememberedCredentials(email, password)
+            } else {
+                storage.clearRememberedCredentials()
+            }
+
+            storage.setAuth(true)
+            storage.setCurrentUser(user)
+
+            setIsLoading(false)
+            navigate("/home")
+        }, 800)
     }
 
+    useEffect(() => {
+        const { email, password } = storage.getRememberedCredentials()
+        if (email && password) {
+            setEmail(email)
+            setPassword(password)
+            setRememberMe(true)
+        }
+    }, [])
+
     return (
-        <motion.div
-            className={styles.container}
-            initial={{ opacity: 0, x: 40, scale: 0.98 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -40, scale: 0.98 }}
-            transition={{ duration: 0.3 }}
-        >
-            <div className={styles.wrapper}>
-                <h1 className={styles.title}>Clínica Castelo</h1>
-                <p className={styles.subtitle}>
-                    Agende sua consulta de forma rápida e segura
-                </p>
+        <div className={styles.container}>
+            <div className={styles.background} />
 
-                <div className={styles.card}>
-                    <div className={styles.avatar}>
-                        <PersonOutlineIcon />
-                    </div>
+            <Container maxWidth="sm" className={styles.wrapper}>
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className={styles.brand}
+                >
+                    <Box className={styles.logoIcon}>
+                        <HeartIcon sx={{ fontSize: 32 }} />
+                    </Box>
+                    <Typography variant="h4" component="h1" className={styles.title}>
+                        Clínica Castelo
+                    </Typography>
+                    <Typography variant="body2" className={styles.subtitle}>
+                        Sua saúde em boas mãos
+                    </Typography>
+                </motion.div>
 
-                    <form onSubmit={handleLogin} className={styles.form}>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                    <Paper elevation={0} className={styles.card}>
+                        <form onSubmit={handleLogin}>
+                            <Box className={styles.form}>
+                                <TextField
+                                    fullWidth
+                                    type="email"
+                                    label="E-mail"
+                                    variant="outlined"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    error={!!erro}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <MailIcon color="action" />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
 
-                        <div className={`${styles.inputGroup} ${erro ? styles.inputError : ""}`}>
-                            <MailOutlineIcon />
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
+                                <TextField
+                                    fullWidth
+                                    type={showPassword ? "text" : "password"}
+                                    label="Senha"
+                                    variant="outlined"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    error={!!erro}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <LockIcon color="action" />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
 
-                        {erro && <span className={styles.error}>{erro}</span>}
+                                {erro && (
+                                    <Alert severity="error" className={styles.alert}>
+                                        {erro}
+                                    </Alert>
+                                )}
 
-                        <div className={styles.inputGroup}>
-                            <LockOutlinedIcon />
-                            <input
-                                type="password"
-                                placeholder="Senha"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
+                                <Box className={styles.options}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={rememberMe}
+                                                onChange={(e) => setRememberMe(e.target.checked)}
+                                                size="small"
+                                            />
+                                        }
+                                        label={
+                                            <Typography variant="body2" sx={{ fontSize: "13px" }}>
+                                                Lembrar de mim
+                                            </Typography>
+                                        }
+                                    />
+                                    <Link href="#" underline="hover" className={styles.forgotLink}>
+                                        Esqueceu a senha?
+                                    </Link>
+                                </Box>
 
-                        <div className={styles.options}>
-                            <label>
-                                <input type="checkbox" />
-                                Lembrar de mim
-                            </label>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    size="large"
+                                    disabled={isLoading}
+                                    className={styles.loginButton}
+                                >
+                                    {isLoading ? <CircularProgress size={24} /> : "Entrar"}
+                                </Button>
 
-                            <a href="#">
-                                Esqueceu a senha?
-                            </a>
-                        </div>
+                                <Divider className={styles.divider}>ou</Divider>
 
-                        <button
-                            className={styles.loginBtn}>
-                            Entrar
-                        </button>
+                                <Button
+                                    type="button"
+                                    fullWidth
+                                    variant="outlined"
+                                    size="large"
+                                    onClick={() => navigate("/register")}
+                                    className={styles.registerButton}
+                                >
+                                    Criar nova conta
+                                </Button>
+                            </Box>
+                        </form>
+                    </Paper>
+                </motion.div>
 
-                        <button
-                            type="button"
-                            className={styles.registerBtn}
-                            onClick={() => navigate("/register")}
-                        >
-                            Criar conta
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </motion.div >
+                <Box className={styles.footer}>
+                    <ShieldIcon sx={{ fontSize: 14 }} />
+                    <Typography variant="caption">Dados protegidos conforme LGPD</Typography>
+                </Box>
+            </Container>
+        </div>
     )
 }
