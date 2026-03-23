@@ -1,13 +1,4 @@
-// Service/StorageService.ts
-
-type Appointment = {
-    id: number
-    date: string
-    time: string
-    status: string
-    userEmail?: string
-    createdAt?: string
-}
+import type { Appointment } from '../types/Appointment'
 
 type User = {
     name: string
@@ -25,7 +16,7 @@ class StorageService {
     private readonly REMEMBERED_PASSWORD_KEY = "rememberedPassword"
 
     // ========== MÉTODOS GERAIS ==========
-    
+
     setPermanent<T>(key: string, value: T): void {
         localStorage.setItem(key, JSON.stringify(value))
     }
@@ -40,7 +31,7 @@ class StorageService {
     }
 
     // ========== MÉTODOS ESPECÍFICOS PARA USUÁRIOS ==========
-    
+
     getUsers(): User[] {
         return this.getPermanent<User[]>(this.USERS_KEY) || []
     }
@@ -61,7 +52,7 @@ class StorageService {
     }
 
     // ========== MÉTODOS ESPECÍFICOS PARA AGENDAMENTOS ==========
-    
+
     getAppointments(): Appointment[] {
         return this.getPermanent<Appointment[]>(this.APPOINTMENTS_KEY) || []
     }
@@ -97,7 +88,7 @@ class StorageService {
     }
 
     // ========== MÉTODOS ESPECÍFICOS PARA AUTENTICAÇÃO ==========
-    
+
     setAuth(isAuth: boolean): void {
         this.setPermanent(this.IS_AUTH_KEY, isAuth)
     }
@@ -132,7 +123,7 @@ class StorageService {
     }
 
     // ========== LIMPEZA ==========
-    
+
     clearSession(): void {
         this.removePermanent(this.IS_AUTH_KEY)
         this.removePermanent(this.CURRENT_USER_KEY)

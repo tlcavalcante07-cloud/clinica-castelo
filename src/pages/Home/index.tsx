@@ -16,13 +16,7 @@ import {
 } from '@mui/icons-material'
 import styles from './Home.module.css'
 
-type Appointment = {
-    id: number
-    date: string
-    time: string
-    status: string
-    userEmail?: string
-}
+import type { Appointment } from '../../types/Appointment'
 
 export default function Home() {
     const navigate = useNavigate()

@@ -13,13 +13,7 @@ import {
 } from '@mui/icons-material'
 import styles from './Appointments.module.css'
 
-type Appointment = {
-    id: number
-    date: string
-    time: string
-    status: "confirmado" | "cancelado"
-    createdAt?: string
-}
+import type { Appointment } from '../../../src/types/Appointment'
 
 export default function Appointments() {
     const [appointments, setAppointments] = useState<Appointment[]>([])
