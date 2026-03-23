@@ -6,6 +6,10 @@ type User = {
     password: string
 }
 
+function normalizeStatus(status: any): "confirmado" | "cancelado" {
+    return status === "cancelado" ? "cancelado" : "confirmado"
+}
+
 class StorageService {
     // Chaves padronizadas
     private readonly APPOINTMENTS_KEY = "appointments"
@@ -30,7 +34,7 @@ class StorageService {
         localStorage.removeItem(key)
     }
 
-    // ========== MÉTODOS ESPECÍFICOS PARA USUÁRIOS ==========
+    // ========== USUÁRIOS ==========
 
     getUsers(): User[] {
         return this.getPermanent<User[]>(this.USERS_KEY) || []
@@ -51,10 +55,20 @@ class StorageService {
         return users.find(u => u.email === email)
     }
 
-    // ========== MÉTODOS ESPECÍFICOS PARA AGENDAMENTOS ==========
+    // ========== AGENDAMENTOS ==========
 
     getAppointments(): Appointment[] {
-        return this.getPermanent<Appointment[]>(this.APPOINTMENTS_KEY) || []
+        const data = this.getPermanent<any[]>(this.APPOINTMENTS_KEY) || []
+
+        // 🔥 Normaliza e força tipagem correta
+        return data.map((a): Appointment => ({
+            id: Number(a.id),
+            date: a.date,
+            time: a.time,
+            status: normalizeStatus(a.status),
+            userEmail: a.userEmail,
+            createdAt: a.createdAt
+        }))
     }
 
     setAppointments(appointments: Appointment[]): void {
@@ -63,17 +77,29 @@ class StorageService {
 
     addAppointment(appointment: Appointment): void {
         const appointments = this.getAppointments()
-        appointments.push(appointment)
+        appointments.push({
+            ...appointment,
+            status: normalizeStatus(appointment.status)
+        })
         this.setAppointments(appointments)
     }
 
     updateAppointment(id: number, updates: Partial<Appointment>): void {
         const appointments = this.getAppointments()
-        const index = appointments.findIndex(a => a.id === id)
-        if (index !== -1) {
-            appointments[index] = { ...appointments[index], ...updates }
-            this.setAppointments(appointments)
-        }
+
+        const updated = appointments.map(a =>
+            a.id === id
+                ? {
+                    ...a,
+                    ...updates,
+                    status: updates.status
+                        ? normalizeStatus(updates.status)
+                        : a.status
+                }
+                : a
+        )
+
+        this.setAppointments(updated)
     }
 
     deleteAppointment(id: number): void {
@@ -87,7 +113,7 @@ class StorageService {
         return appointments.filter(a => a.userEmail === userEmail)
     }
 
-    // ========== MÉTODOS ESPECÍFICOS PARA AUTENTICAÇÃO ==========
+    // ========== AUTENTICAÇÃO ==========
 
     setAuth(isAuth: boolean): void {
         this.setPermanent(this.IS_AUTH_KEY, isAuth)
