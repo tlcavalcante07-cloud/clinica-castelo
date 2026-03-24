@@ -1,4 +1,3 @@
-// Appointments.tsx
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -31,8 +30,10 @@ export default function Appointments() {
             setTimeout(() => {
                 // ✅ Atualizar via storage
                 const appointments = storage.getAppointments()
-                const updated = appointments.map(a =>
-                    a.id === id ? { ...a, status: "cancelado" } : a
+                const updated: Appointment[] = appointments.map(a =>
+                    a.id === id
+                        ? { ...a, status: "cancelado" }
+                        : a
                 )
                 storage.setAppointments(updated)
 
@@ -43,7 +44,6 @@ export default function Appointments() {
     }
 
     const handleDelete = (id: number) => {
-        debugger
         if (window.confirm("Remover este agendamento da lista?")) {
             // ✅ Usar o método específico do storage
             storage.deleteAppointment(id)
