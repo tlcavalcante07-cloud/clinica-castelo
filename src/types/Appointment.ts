@@ -8,3 +8,9 @@ export interface Appointment {
     userEmail?: string
     createdAt?: string
 }
+
+export interface User {
+    name: string
+    email: string
+    password: string
+}

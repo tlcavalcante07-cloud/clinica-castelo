@@ -14,6 +14,8 @@ import {
 import isValidEmail from '../../Utils'
 import styles from './Register.module.css'
 
+import type { User } from '../../types/Appointment'
+
 export default function Register() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -54,7 +56,7 @@ export default function Register() {
 
         setTimeout(() => {
             const users = storage.getPermanent<User[]>("users") || []
-            const userExists = users.some((u: any) => u.email === email)
+            const userExists = users.some((u) => u.email === email)
 
             if (userExists) {
                 setErro("Usuário já cadastrado")
