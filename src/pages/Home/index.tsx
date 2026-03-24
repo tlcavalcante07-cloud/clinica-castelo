@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { storage } from '../../Service/StorageService'
 import {
-    CalendarToday as CalendarIcon,
     Schedule as ScheduleIcon,
     Logout as LogoutIcon,
     Person as PersonIcon,
@@ -28,14 +27,14 @@ export default function Home() {
     // Home.tsx - Atualizado
     useEffect(() => {
         // ✅ Usar storageService em vez de localStorage direto
-        const user = storage.getPermanent("currentUser") || {}
+        const user = storage.getPermanent<{ name: string; email: string }>("currentUser") || { name: "", email: "" }
         setUserName(user.name || "Usuário")
         setUserEmail(user.email || "")
 
         const appointments: Appointment[] = storage.getPermanent("appointments") || []
 
         const userAppointments = appointments.filter(
-            a => a.userEmail === user.email && a.status === "Confirmado"
+            a => a.userEmail === user.email && a.status === "confirmado"
         )
 
         setAppointmentsCount(userAppointments.length)
@@ -53,11 +52,6 @@ export default function Home() {
     const handleLogout = () => {
         storage.clearAll()
         navigate("/login")
-    }
-
-    const formatDate = (dateString: string) => {
-        const [year, month, day] = dateString.split("-")
-        return `${day}/${month}/${year}`
     }
 
     // Serviços disponíveis
@@ -104,9 +98,9 @@ export default function Home() {
         }
     ]
 
-    function formatName(userName) {
+    function formatName(userName: string) {
         return userName.split(' ')
-            .map((x: any) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
+            .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
             .join(' ')
     }
 
@@ -164,45 +158,6 @@ export default function Home() {
                     ))}
                 </motion.div>
 
-                {/* Próxima consulta */}
-                {/* {nextAppointment && (
-                    <motion.div
-                        className={styles.nextAppointment}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
-                    >
-                        <div className={styles.sectionHeader}>
-                            <CalendarIcon />
-                            <h3>Próxima consulta</h3>
-                        </div>
-                        <div
-                            className={styles.appointmentCard}
-                            onClick={() => navigate("/appointments")}
-                            style={{ cursor: "pointer" }}
-                        >
-                            <div className={styles.appointmentDate}>
-                                <span className={styles.day}>
-                                    {formatDate(nextAppointment.date).split("/")[0]}
-                                </span>
-                                <span className={styles.month}>
-                                    {formatDate(nextAppointment.date).split("/")[1]}
-                                </span>
-                            </div>
-                            <div className={styles.appointmentDetails}>
-                                <p className={styles.appointmentTime}>
-                                    {nextAppointment.time}h
-                                </p>
-                                <p className={styles.appointmentStatus}>
-                                    {nextAppointment.status}
-                                </p>
-                            </div>
-                            <ChevronIcon className={styles.chevronSmall} />
-                        </div>
-                    </motion.div>
-                )} */}
-
-                {/* Dica rápida */}
                 <motion.div
                     className={styles.tip}
                     initial={{ opacity: 0 }}

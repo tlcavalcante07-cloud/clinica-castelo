@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material'
 import styles from './Appointments.module.css'
 
-import type { Appointment } from '../../../src/types/Appointment'
+import type { Appointment } from '../../types/Appointment'
 
 export default function Appointments() {
     const [appointments, setAppointments] = useState<Appointment[]>([])
@@ -21,12 +21,8 @@ export default function Appointments() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const stored = JSON.parse(localStorage.getItem("appointments") || "[]")
-        if (stored.length > 0) {
-            setAppointments(stored)
-        } else {
-            setAppointments([])
-        }
+        const stored = storage.getAppointments()
+        setAppointments(stored)
     }, [])
 
     const handleCancel = (id: number) => {
@@ -164,10 +160,10 @@ export default function Appointments() {
                                             <div className={styles.appointmentStatus}>
                                                 <span className={
                                                     item.status === "confirmado"
-                                                        ? styles.statusCancelled
-                                                        : styles.statusConfirmed
+                                                        ? styles.statusConfirmed
+                                                        : styles.statusCancelled
                                                 }>
-                                                    {item.status === "confirmado" ? "✗ Cancelado" : "✓ Confirmado"}
+                                                    {item.status === "confirmado" ? "✓ Confirmado" : "✗ Cancelado"}
                                                 </span>
                                             </div>
                                         </div>

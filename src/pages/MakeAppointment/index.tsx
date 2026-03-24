@@ -32,7 +32,7 @@ export default function MakeAppointment() {
 
         await new Promise(resolve => setTimeout(resolve, 1000))
 
-        const user = storage.getPermanent("currentUser")
+        const user = storage.getPermanent<{ name: string; email: string }>("currentUser") || { name: "", email: "" }
 
         const newAppointment = {
             id: Date.now(),

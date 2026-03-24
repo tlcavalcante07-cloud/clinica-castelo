@@ -159,15 +159,6 @@
     font-size: 20px;
 }
 
-/* Próxima consulta */
-.nextAppointment {
-    background: white;
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
 .sectionHeader {
     display: flex;
     align-items: center;
