@@ -1,4 +1,3 @@
-// MakeAppointment.tsx
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -10,6 +9,8 @@ import {
     ArrowBack as BackIcon
 } from '@mui/icons-material'
 import styles from './MakeAppointment.module.css'
+
+import type { Appointment } from '../../types/Appointment'
 
 export default function MakeAppointment() {
     const [date, setDate] = useState("")
@@ -34,11 +35,11 @@ export default function MakeAppointment() {
 
         const user = storage.getPermanent<{ name: string; email: string }>("currentUser") || { name: "", email: "" }
 
-        const newAppointment = {
+        const newAppointment: Appointment = {
             id: Date.now(),
             date,
             time: selectedTime,
-            status: "Confirmado",
+            status: "confirmado",
             userEmail: user?.email,
             createdAt: new Date().toISOString()
         }

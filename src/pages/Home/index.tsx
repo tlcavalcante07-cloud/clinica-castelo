@@ -21,7 +21,6 @@ export default function Home() {
     const navigate = useNavigate()
     const [userName, setUserName] = useState("")
     const [userEmail, setUserEmail] = useState("")
-    const [nextAppointment, setNextAppointment] = useState<Appointment | null>(null)
     const [appointmentsCount, setAppointmentsCount] = useState(0)
 
     // Home.tsx - Atualizado
@@ -39,13 +38,6 @@ export default function Home() {
 
         setAppointmentsCount(userAppointments.length)
 
-        const sorted = userAppointments.sort(
-            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        )
-
-        if (sorted.length > 0) {
-            setNextAppointment(sorted[0])
-        }
     }, [])
 
     // Home.tsx

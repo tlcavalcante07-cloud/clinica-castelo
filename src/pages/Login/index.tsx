@@ -1,4 +1,3 @@
-// Login.tsx
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -55,7 +54,6 @@ export default function Login() {
         setErro("")
 
         setTimeout(() => {
-            // ✅ Usar storageService
             const users = storage.getUsers()
             const user = users.find(u => u.email === email && u.password === password)
 
