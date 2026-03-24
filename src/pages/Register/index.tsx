@@ -14,7 +14,11 @@ import {
 import isValidEmail from '../../Utils'
 import styles from './Register.module.css'
 
-import type { User } from '../../types/Appointment'
+export interface User {
+    name: string
+    email: string
+    password: string
+}
 
 export default function Register() {
     const [name, setName] = useState("")
