@@ -194,7 +194,7 @@ export default function Login() {
                                     disabled={isLoading}
                                     className={styles.loginButton}
                                 >
-                                    {isLoading ? <CircularProgress size={24} /> : "Entrar"}
+                                    {isLoading ? <CircularProgress size={24} className={styles.circularProgress} /> : "Entrar"}
                                 </Button>
 
                                 <Divider className={styles.divider}>ou</Divider>
