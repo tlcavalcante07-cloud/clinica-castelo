@@ -41,7 +41,8 @@ export default function Welcome() {
                     <div className={styles.logoIcon}>
                         <HospitalIcon sx={{ fontSize: 40 }} />
                     </div>
-                    <h1 className={styles.title}>Bem-vindo(a) à Clínica Castelo</h1>
+                    <h1 className={styles.title}>
+                        Bem-vindo(a) à Clínica Castelo</h1>
                     <p className={styles.subtitle}>
                         Cuidado que transforma vidas
                     </p>
