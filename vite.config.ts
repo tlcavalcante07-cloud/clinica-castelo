@@ -8,17 +8,17 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      includeAssets: ['icon-192.png', 'icon-512.png'],
+      includeAssets: ['icon-192.png', 'icon-512.png', 'icon-1024.png'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}']
       },
       manifest: {
         id: '/',
         name: 'Clínica Castelo',
-        short_name: 'Clínica',
+        short_name: 'Clínica Castelo',
         description: 'Agendamento de consultas médicas',
         theme_color: '#0066cc',
-        background_color: '#ffffff',
+        background_color: '#0066cc',
         display: 'standalone',
         start_url: '/',
         scope: '/',
@@ -40,6 +40,12 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'
+          },
+          {
+            src: '/icon-1024.png',
+            sizes: '1024x1024',
+            type: 'image/png',
+            purpose: 'any maskable'
           }
         ]
       }
