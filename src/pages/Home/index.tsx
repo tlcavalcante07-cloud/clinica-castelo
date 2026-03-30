@@ -6,7 +6,6 @@ import { storage } from '../../Service/StorageService'
 import {
     Schedule as ScheduleIcon,
     Logout as LogoutIcon,
-    Person as PersonIcon,
     MedicalServices as MedicalIcon,
     ChevronRight as ChevronIcon,
     History as HistoryIcon,
@@ -14,7 +13,6 @@ import {
     Favorite as FavoriteIcon,
     Biotech as BiotechIcon
 } from '@mui/icons-material'
-import { toast } from 'sonner'
 import styles from './Home.module.css'
 
 import type { Appointment } from '../../types/Appointment'

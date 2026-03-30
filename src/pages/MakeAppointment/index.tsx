@@ -5,7 +5,6 @@ import { storage } from '../../Service/StorageService'
 import {
     CalendarToday as CalendarIcon,
     AccessTime as TimeIcon,
-    CheckCircle as CheckIcon,
     ArrowBack as BackIcon
 } from '@mui/icons-material'
 import styles from './MakeAppointment.module.css'

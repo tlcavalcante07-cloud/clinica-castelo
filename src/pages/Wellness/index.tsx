@@ -10,8 +10,7 @@ import {
     Restaurant as NutritionIcon,
     Bedtime as SleepIcon,
     WaterDrop as HydrationIcon,
-    Psychology as MentalIcon,
-    ChevronRight as ChevronIcon
+    Psychology as MentalIcon
 } from '@mui/icons-material'
 import styles from './Wellness.module.css'
 
