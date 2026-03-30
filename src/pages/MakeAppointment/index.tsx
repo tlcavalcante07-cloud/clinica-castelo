@@ -137,20 +137,24 @@ export default function MakeAppointment() {
                                 <TimeIcon className={styles.labelIcon} />
                                 Horário disponível
                             </label>
-                            <div className={styles.timesGrid}>
-                                {times.map((time) => (
-                                    <motion.button
-                                        key={time}
-                                        className={`${styles.timeButton} ${selectedTime === time ? styles.active : ""}`}
-                                        onClick={() => setSelectedTime(time)}
-                                        whileTap={{ scale: 0.97 }}
-                                    >
-                                        {time}
-                                        {selectedTime === time && (
-                                            <CheckIcon className={styles.checkIcon} />
-                                        )}
-                                    </motion.button>
-                                ))}
+                            <div className={styles.selectWrapper}>
+                                <select
+                                    className={styles.select}
+                                    value={selectedTime}
+                                    onChange={(e) => setSelectedTime(e.target.value)}
+                                >
+                                    <option value="">Selecione um horário</option>
+
+                                    {times.map((time) => (
+                                        <option key={time} value={time}>
+                                            {time}
+                                        </option>
+                                    ))}
+                                </select>
+                                <TimeIcon
+                                    className={styles.selectIcon}
+                                    style={{ color: selectedTime ? "#0066cc" : "#8ba0bc" }}
+                                />
                             </div>
                         </div>
 

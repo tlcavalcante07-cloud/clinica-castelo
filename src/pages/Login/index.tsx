@@ -38,7 +38,7 @@ export default function Login() {
     const navigate = useNavigate()
 
     // Carregar dados salvos ao iniciar
-    useState(() => {
+    useEffect(() => {
         const savedEmail = localStorage.getItem("rememberedEmail")
         const savedPassword = localStorage.getItem("rememberedPassword")
         if (savedEmail && savedPassword) {

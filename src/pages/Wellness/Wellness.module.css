@@ -1,0 +1,266 @@
+.container {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 20px;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, #e8f0fe 0%, #d4e2f5 100%);
+    z-index: -1;
+}
+
+.content {
+    max-width: 550px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 28px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.backButton {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a2c3e;
+    transition: all 0.2s;
+}
+
+.backButton:hover {
+    background: #f1f5f9;
+    transform: translateX(-2px);
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a2c3e;
+    margin: 0;
+}
+
+.placeholder {
+    width: 40px;
+}
+
+/* Hero */
+.hero {
+    background: white;
+    border-radius: 32px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.heroIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, #ec489a, #be185d);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 8px 20px -4px rgba(236, 72, 153, 0.3);
+}
+
+.heroTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a2c3e;
+    margin: 0 0 8px;
+}
+
+.heroText {
+    font-size: 15px;
+    color: #5b6e8c;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Categories */
+.categories {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+
+}
+
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.categoryButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.categoryButton:hover {
+    border-color: #0066cc;
+    background: #f8fafc;
+}
+
+.categoryButton.active {
+    background: #0066cc;
+    border-color: #0066cc;
+    color: white;
+}
+
+.categoryButton.active .categoryIcon {
+    color: white;
+}
+
+.categoryIcon {
+    font-size: 18px;
+    color: #5b6e8c;
+    display: flex;
+    align-items: center;
+}
+
+.categoryLabel {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Tips Grid */
+.tipsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.tipCard {
+    background: white;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+}
+
+.tipCard:hover {
+    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1);
+}
+
+.tipIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tipContent {
+    flex: 1;
+    text-align: left;
+}
+
+.tipTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a2c3e;
+    margin: 0 0 4px;
+}
+
+.tipDescription {
+    font-size: 13px;
+    color: #5b6e8c;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Quote */
+.quote {
+    background: white;
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.quoteIcon {
+    font-size: 48px;
+    color: #0066cc;
+    font-family: Georgia, serif;
+    margin-bottom: 8px;
+    opacity: 0.5;
+}
+
+.quoteText {
+    font-size: 16px;
+    color: #1a2c3e;
+    font-style: italic;
+    margin: 0 0 12px;
+    line-height: 1.6;
+}
+
+.quoteAuthor {
+    font-size: 13px;
+    color: #5b6e8c;
+    margin: 0;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+    .heroTitle {
+        font-size: 20px;
+    }
+
+    .heroIcon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .categoryLabel {
+        font-size: 12px;
+    }
+
+    .tipTitle {
+        font-size: 14px;
+    }
+
+    .tipDescription {
+        font-size: 12px;
+    }
+}

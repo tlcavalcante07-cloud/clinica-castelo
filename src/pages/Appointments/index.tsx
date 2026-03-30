@@ -10,6 +10,7 @@ import {
     EventBusy as EventBusyIcon,
     DeleteOutline as DeleteIcon
 } from '@mui/icons-material'
+import { toast } from 'sonner'
 import styles from './Appointments.module.css'
 
 import type { Appointment } from '../../types/Appointment'
@@ -25,32 +26,47 @@ export default function Appointments() {
     }, [])
 
     const handleCancel = (id: number) => {
-        if (window.confirm("Tem certeza que deseja cancelar esta consulta?")) {
-            setIsLoading(true)
-            setTimeout(() => {
-                // ✅ Atualizar via storage
+        const loadingToast = toast.loading("Cancelando consulta...")
+
+        setIsLoading(true)
+        setTimeout(() => {
+            try {
                 const appointments = storage.getAppointments()
+
                 const updated: Appointment[] = appointments.map(a =>
                     a.id === id
                         ? { ...a, status: "cancelado" }
                         : a
                 )
-                storage.setAppointments(updated)
 
+                storage.setAppointments(updated)
                 setAppointments(updated)
+
+                toast.dismiss(loadingToast)
+                toast.success("Consulta cancelada com sucesso")
+
+            } catch {
+                toast.dismiss(loadingToast)
+                toast.error("Erro ao cancelar consulta")
+            } finally {
                 setIsLoading(false)
-            }, 500)
-        }
+            }
+        }, 500)
     }
 
     const handleDelete = (id: number) => {
-        if (window.confirm("Remover este agendamento da lista?")) {
-            // ✅ Usar o método específico do storage
-            storage.deleteAppointment(id)
+        toast.warning("Remover este agendamento?", {
+            action: {
+                label: "Confirmar",
+                onClick: () => {
+                    storage.deleteAppointment(id)
 
-            // Atualizar estado local
-            setAppointments(prev => prev.filter(a => a.id !== id))
-        }
+                    setAppointments(prev => prev.filter(a => a.id !== id))
+
+                    toast.success("Agendamento removido")
+                }
+            }
+        })
     }
 
     const formatDate = (dateString: string | undefined) => {

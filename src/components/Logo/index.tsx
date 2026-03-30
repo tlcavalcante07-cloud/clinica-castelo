@@ -1,4 +1,3 @@
-// components/Logo.tsx
 import { motion } from 'framer-motion'
 import styles from './Logo.module.css'
 
@@ -9,7 +8,6 @@ interface LogoProps {
 }
 
 export default function Logo({ size = 48, animated = true, variant = 'full' }: LogoProps) {
-    // Versão ícone (apenas o símbolo)
     const iconOnly = (
         <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -17,13 +15,16 @@ export default function Logo({ size = 48, animated = true, variant = 'full' }: L
                     <stop offset="0%" stopColor="#0066cc" />
                     <stop offset="100%" stopColor="#0052a3" />
                 </linearGradient>
+
                 <linearGradient id="gradGold" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#e8b86b" />
                     <stop offset="100%" stopColor="#c9771e" />
                 </linearGradient>
+
                 <filter id="shadow" x="-0.2" y="-0.2" width="1.4" height="1.4">
                     <feDropShadow dx="2" dy="4" stdDeviation="2" floodOpacity="0.15" />
                 </filter>
+
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="1" result="coloredBlur" />
                     <feMerge>
@@ -37,41 +38,41 @@ export default function Logo({ size = 48, animated = true, variant = 'full' }: L
             <circle cx="50" cy="50" r="46" fill="none" stroke="url(#gradLogo)" strokeWidth="2" strokeOpacity="0.3" />
             <circle cx="50" cy="50" r="40" fill="none" stroke="url(#gradGold)" strokeWidth="1.5" strokeDasharray="3 3" />
 
-            {/* Círculo principal com gradiente */}
             <circle cx="50" cy="50" r="32" fill="url(#gradLogo)" filter="url(#shadow)" />
 
-            {/* Letra S estilizada (Selena) */}
-            <path d="M62 35 L38 35 C35 35 32 38 32 42 L32 58 C32 62 35 65 38 65 L62 65"
-                stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <path d="M38 35 L38 42" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <path
+                d="M50 68s-12-7-12-18c0-5 4-9 9-9 3 0 5 2 6 4 1-2 3-4 6-4 5 0 9 4 9 9 0 11-12 18-12 18z"
+                fill="white"
+            />
 
-            {/* Letra C estilizada (Castelo) */}
-            <path d="M62 35 L62 65 M62 65 L68 65" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <path
+                d="M40 52 L44 52 L47 48 L50 56 L53 50 L56 52 L60 52"
+                stroke="#0066cc"
+                strokeWidth="2"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
 
-            {/* Cruz médica com brilho dourado */}
-            <path d="M50 48 L50 52 M48 50 L52 50" stroke="url(#gradGold)" strokeWidth="2.5" strokeLinecap="round" filter="url(#glow)" />
+            <path
+                d="M50 48 L50 52 M48 50 L52 50"
+                stroke="url(#gradGold)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                filter="url(#glow)"
+            />
 
-            {/* Detalhe decorativo */}
             <circle cx="50" cy="50" r="22" fill="none" stroke="white" strokeWidth="1" opacity="0.3" />
 
-            {/* Pontos de brilho */}
             <circle cx="70" cy="30" r="2" fill="url(#gradGold)" opacity="0.5" />
             <circle cx="30" cy="70" r="1.5" fill="url(#gradGold)" opacity="0.4" />
         </svg>
     )
 
-    // Versão compacta (ícone + nome em linha)
     const compact = (
         <div className={styles.compactContainer}>
             <div className={styles.compactIcon}>
-                <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-                    <circle cx="50" cy="50" r="45" fill="url(#gradLogo)" />
-                    <path d="M62 35 L38 35 C35 35 32 38 32 42 L32 58 C32 62 35 65 38 65 L62 65"
-                        stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M38 35 L38 42" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M62 35 L62 65 M62 65 L68 65" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M50 48 L50 52 M48 50 L52 50" stroke="#e8b86b" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
+                {iconOnly}
             </div>
             <div className={styles.compactText}>
                 <h1 className={styles.compactTitle}>Dra. Selena Castelo</h1>
@@ -79,18 +80,10 @@ export default function Logo({ size = 48, animated = true, variant = 'full' }: L
         </div>
     )
 
-    // Versão completa (ícone + nome + subtítulo)
     const full = (
         <div className={styles.logoContainer}>
             <div className={styles.iconWrapper}>
-                <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
-                    <circle cx="50" cy="50" r="45" fill="url(#gradLogo)" />
-                    <path d="M62 35 L38 35 C35 35 32 38 32 42 L32 58 C32 62 35 65 38 65 L62 65"
-                        stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M38 35 L38 42" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M62 35 L62 65 M62 65 L68 65" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" />
-                    <path d="M50 48 L50 52 M48 50 L52 50" stroke="#e8b86b" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
+                {iconOnly}
             </div>
             <div className={styles.textContainer}>
                 <h1 className={styles.logoTitle}>Dra. Selena Castelo</h1>

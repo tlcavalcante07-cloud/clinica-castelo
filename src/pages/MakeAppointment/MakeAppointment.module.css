@@ -262,6 +262,41 @@
   animation: spin 0.6s linear infinite;
 }
 
+.selectWrapper {
+  position: relative;
+}
+
+.select {
+  width: 100%;
+  padding: 14px 16px;
+  padding-right: 40px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #f8fafc;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #0066cc;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8ba0bc;
+  pointer-events: none;
+  font-size: 20px;
+}yy
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

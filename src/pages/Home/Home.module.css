@@ -271,6 +271,19 @@
     margin: 0;
 }
 
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1565c0, #1e88e5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
 /* Responsivo */
 @media (max-width: 480px) {
     .header {

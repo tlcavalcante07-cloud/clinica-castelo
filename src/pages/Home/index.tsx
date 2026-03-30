@@ -11,8 +11,10 @@ import {
     ChevronRight as ChevronIcon,
     History as HistoryIcon,
     Receipt as ReceiptIcon,
-    Favorite as FavoriteIcon
+    Favorite as FavoriteIcon,
+    Biotech as BiotechIcon
 } from '@mui/icons-material'
+import { toast } from 'sonner'
 import styles from './Home.module.css'
 
 import type { Appointment } from '../../types/Appointment'
@@ -51,7 +53,7 @@ export default function Home() {
         {
             id: 1,
             title: "Agendar consulta",
-            description: "Marque sua próxima consulta médica",
+            description: "Marque sua próxima consulta",
             icon: <MedicalIcon />,
             path: "/makeappointment",
             color: "#0066cc"
@@ -66,10 +68,10 @@ export default function Home() {
         },
         {
             id: 3,
-            title: "Histórico médico",
-            description: "Acesse seu prontuário e exames",
-            icon: <HistoryIcon />,
-            path: "/history",
+            title: "Marcar exame",
+            description: "Agende seus exames laboratoriais",
+            icon: <BiotechIcon />,
+            path: "/scheduleexam",
             color: "#8b5cf6"
         },
         {
@@ -87,6 +89,14 @@ export default function Home() {
             icon: <FavoriteIcon />,
             path: "/wellness",
             color: "#ec489a"
+        },
+        {
+            id: 6,
+            title: "Histórico médico",
+            description: "Acesse seu prontuário e exames",
+            icon: <HistoryIcon />,
+            path: "/history",
+            color: "#8b5cf6"
         }
     ]
 
@@ -110,7 +120,7 @@ export default function Home() {
                 >
                     <div className={styles.userInfo}>
                         <div className={styles.avatar}>
-                            <PersonIcon />
+                            {userName.charAt(0).toUpperCase()}
                         </div>
                         <div className={styles.userText}>
                             <h2 className={styles.greeting}>Olá, {formatName(userName)}</h2>
