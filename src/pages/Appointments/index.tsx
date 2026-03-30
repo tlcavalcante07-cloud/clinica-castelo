@@ -57,7 +57,7 @@ export default function Appointments() {
     const handleDelete = (id: number) => {
         toast.warning("Remover este agendamento?", {
             action: {
-                label: "Confirmar",
+                label: "Remover",
                 onClick: () => {
                     storage.deleteAppointment(id)
 

@@ -16,7 +16,14 @@ function App() {
   const isAuth = localStorage.getItem("isAuth") === "true"
   return (
     <>
-      <Toaster position="top-right" richColors closeButton />
+      <Toaster position="top-right" richColors closeButton
+        toastOptions={{
+          classNames: {
+            actionButton: 'toastAction',
+            cancelButton: 'toastCancel'
+          }
+        }}
+      />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={isAuth ? <Navigate to="/home" replace /> : <Navigate to="/welcome" replace />} />
